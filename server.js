@@ -1,11 +1,23 @@
-import app from "./src/app";
-import config from "./src/config/environment"
-import { connecDb } from "./src/config/database";
+import app from "./src/app.js";
+import config from "./src/config/environment.js"
+import { connecDb } from "./src/config/database.js";
 
 
 const {PORT} = config;
 const startServer = async()=>{
-    await connecDb();
+    try {
+        await connecDb();
+
+        app.listen(PORT,()=>{
+            console.log(`Server connected on port ${PORT}`);
+            
+        })
+    } catch (error) {
+        console.log("error while connecting server");
+        
+    }
     
 
+
 }
+startServer();
