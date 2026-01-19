@@ -1,4 +1,4 @@
-import config from "./environment"
+import config from "./environment.js"
 import redis from "redis"
 
 const {REDIS_HOST,REDIS_PORT,REDIS_PASSWORD} = config;
