@@ -1,5 +1,5 @@
-import { redisClient } from "../../config/redis";
-import ICacheRepository from "../contracts/ICacheRepository";
+import { redisClient } from "../../config/redis.js";
+import ICacheRepository from "../contracts/ICacheRepository.js";
 
 class MongoCacheRepository extends ICacheRepository {
   async get() {

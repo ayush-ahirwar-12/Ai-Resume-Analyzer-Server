@@ -1,11 +1,16 @@
 import { tryCatch } from "bullmq";
 import userModel from "../../models/user.model.js";
-import IUserRepository from "../contracts/IUserRepository";
+import IUserRepository from "../contracts/IUserRepository.js";
 
 class MongoUserRepository extends IUserRepository {
   async createUser(data) {
     try {
-    } catch (error) {}
+        const user = new userModel(data);
+        const savedUser = await user.save();
+        return savedUser;
+    } catch (error) {
+        console.error("Error creating user:", error);
+    }
   }
   async findUserbyEmail(email) {
     try {

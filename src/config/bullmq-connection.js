@@ -1,4 +1,4 @@
-import config from "./environment"
+import config from "./environment.js"
 
 const connection = {
     host:process.env.REDIS_HOST,

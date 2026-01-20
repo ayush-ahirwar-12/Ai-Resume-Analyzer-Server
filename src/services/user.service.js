@@ -1,6 +1,9 @@
 import { emailQueue } from "../queues/emailQueue.js";
 import MongoCacheRepository from "../repositories/implementations/MongoCacheRepository.js";
 import mongoUserRepository from "../repositories/implementations/mongoUserRepository.js";
+import  jwt from "jsonwebtoken"
+import config from "../config/environment.js"
+const {JWT_SECRET} = config;
 
 class UserService {
   constructor() {
@@ -97,6 +100,10 @@ class UserService {
         error: error.message,
       });
     }
+
+
+    const token = jwt.sign(jwtPayload,JWT_SECRET,{expiresIn:"1h"});
+    return { user: safeUser, token };
 
   }
 }

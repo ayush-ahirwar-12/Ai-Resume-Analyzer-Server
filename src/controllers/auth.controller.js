@@ -1,4 +1,4 @@
-import UserService from "../services/user.service";
+import UserService from "../services/user.service.js";
 
 class AuthController {
   constructor() {
@@ -20,6 +20,7 @@ class AuthController {
       path: "/",
     };
   }
+  
   register = async (req, res, next) => {
     const userData = req.body;
     const result = await UserService.createUser(userData);

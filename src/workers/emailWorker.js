@@ -1,5 +1,5 @@
 import { tryCatch, Worker } from "bullmq";
-import connection from "../config/bullmq-connection";
+import connection from "../config/bullmq-connection.js";
 
 const worker = new Worker('email',async(job)=>{
     console.log(`processing job ${job.id} - ${job.name}`);
