@@ -1,5 +1,5 @@
 import { Queue } from "bullmq";
-import connection from "../config/bullmq-connection";
+import connection from "../config/bullmq-connection.js";
 
 export const emailQueue = new Queue("email",{
     connection,
