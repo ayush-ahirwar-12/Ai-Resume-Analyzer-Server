@@ -6,6 +6,27 @@ class UserService {
     this.UserRepository = new mongoUserRepository();
     this.cacheRepository = new MongoCacheRepository();
   }
+  _getSafeRole(user) {
+    return user.role
+      ? {
+          _id: user.role._id,
+          name: user.role.name,
+          description: user.role.description,
+        }
+      : null;
+  }
+
+  _getSafeUserPayload(user) {
+    return {
+      _id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber: user.phoneNumber || null,
+      role: this._getSafeRole(user),
+      isVerified: user.isVerified,
+    };
+  }
   async createUser(data) {
     const email = data.email.toLowerCase().trim();
     const cacheKey = `user:email:${email}`;
@@ -18,9 +39,8 @@ class UserService {
         console.log(existingUser, "existuser");
       }
     }
-    if(isExist){
-        throw new Error("Email already exists",409);
-        
+    if (isExist) {
+      throw new Error("Email already exists", 409);
     }
   }
 }
