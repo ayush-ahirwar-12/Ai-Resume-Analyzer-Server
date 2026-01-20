@@ -79,7 +79,7 @@ export async function sendVerificationEmail(user) {
     </div>
   </div>
   `,
-    textContent: `
+      textContent: `
 Hello ${user.name || "there"},
 
 Please verify your email address to complete your registration.
@@ -94,8 +94,20 @@ AI-Resume Extractor
   `,
     };
 
-    const response = await 
+    const response = await axios.post(BREVO_URL, payload, {
+      headers: {
+        "api-key": BREVO_API_KEY,
+        "Content-Type": "application/json",
+      },
+    });
 
-
-  } catch (error) {}
+    console.log("Verification Email sent:", response.data.messageId);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Brevo verification email failed:",
+      error.response?.data || error.message,
+    );
+    throw error;
+  }
 }
