@@ -42,6 +42,22 @@ class UserService {
     if (isExist) {
       throw new Error("Email already exists", 409);
     }
+
+    const user = await this.UserRepository.createUser({ ...data, email });
+
+    const userWithRole = await this.UserRepository.findUserbyId(user._id);
+
+    if (!userWithRole) throw new Error("Failed to fetch create user");
+
+    const safeUser = this._getSafeUserPayload(userWithRole);
+
+    await this.cacheRepository.set(
+      `user:id:${userWithRole._id}`,
+      JSON.stringify(safeUser),
+      3600,
+    );
+
+    
   }
 }
 
