@@ -1,3 +1,4 @@
+import { emailQueue } from "../queues/emailQueue.js";
 import MongoCacheRepository from "../repositories/implementations/MongoCacheRepository.js";
 import mongoUserRepository from "../repositories/implementations/mongoUserRepository.js";
 
@@ -57,7 +58,46 @@ class UserService {
       3600,
     );
 
-    
+    await this.cacheRepository.set(
+      cacheKey,
+      JSON.stringify({ ...safeUser, password: user.password }),
+      3600,
+    );
+    const jwtPayload = {
+      id: safeUser._id,
+      email: safeUser.email,
+      firstName: safeUser.firstName,
+      lastName: safeUser.lastName,
+      role: safeUser?.role?.name,
+      isVerified: safeUser?.isVerified,
+    };
+
+    try {
+      emailQueue.add(
+        "verification-mail",
+        {
+          id: safeUser._id,
+          email: safeUser.email,
+          name: safeUser.firstName,
+        },
+        {
+          attempts: 3,
+          backoff: {
+            type: "exponential",
+            delay: 5000,
+          },
+          removeOnComplete: true,
+          removeOnFail: false,
+        },
+      );
+      console.info(`Welcome email job queued for ${safeUser?.email}`);
+    } catch (error) {
+      console.warn("Failed to queue Verification email", {
+        email: safeUser.email,
+        error: error.message,
+      });
+    }
+
   }
 }
 
