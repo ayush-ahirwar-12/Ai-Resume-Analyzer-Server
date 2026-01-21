@@ -1,3 +1,4 @@
+import { tryCatch } from "bullmq";
 import UserService from "../services/user.service.js";
 
 class AuthController {
@@ -20,14 +21,21 @@ class AuthController {
       path: "/",
     };
   }
-  
-  register = async (req, res, next) => {
-    const userData = req.body;
-    const result = await UserService.createUser(userData);
 
-    res.cookie("token",result.token,{...this.cookieOptions,maxAge:60 * 60 *1000 });
-    res.status(201).json({success:true,data:result});
+  register = async (req, res, next) => {
+    try {
+      const userData = req.body;
+      const result = await this.userService.createUser(userData);
+
+      res.cookie("token", result.token, {
+        ...this.cookieOptions,
+        maxAge: 60 * 60 * 1000,
+      });
+      res.status(201).json({ success: true, data: result });
+    } catch (error) {
+      next(error)
+    }
   };
 }
 
-export default AuthController
+export default new AuthController();
