@@ -3,7 +3,7 @@ import config from "../../config/environment.js"
 const {BREVO_API_KEY} = config;
 
 // FRONTEND_URL = "http://localhost:8000";
-const BREVO_API = BREVO_API_KEY;
+const BREVO_API = BREVO_API_KEY
 const BREVO_URL = "https://api.brevo.com/v3/smtp/email";
 
 export async function sendVerificationEmail(user) {
