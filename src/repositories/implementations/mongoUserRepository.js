@@ -14,7 +14,7 @@ class MongoUserRepository extends IUserRepository {
   }
   async findUserbyEmail(email) {
     try {
-      const user = await userModel.findOne(email);
+      const user = await userModel.findOne({email});
       return user;
     } catch (error) {
       console.log("Error in finding user", error);

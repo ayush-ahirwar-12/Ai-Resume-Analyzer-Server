@@ -3,7 +3,6 @@ import MongoCacheRepository from "../repositories/implementations/MongoCacheRepo
 import mongoUserRepository from "../repositories/implementations/mongoUserRepository.js";
 import  jwt from "jsonwebtoken"
 import config from "../config/environment.js"
-const {JWT_SECRET} = config;
 
 class UserService {
   constructor() {
@@ -35,12 +34,12 @@ class UserService {
     const email = data.email.toLowerCase().trim();
     const cacheKey = `user:email:${email}`;
 
-    const isExist = null;
+    let isExist = null;
     if (!isExist) {
       isExist = await this.UserRepository.findUserbyEmail(email);
       if (isExist) {
         await this.cacheRepository.set(cacheKey, JSON.stringify(isExist), 3600);
-        console.log(existingUser, "existuser");
+        console.log(isExist, "existuser");
       }
     }
     if (isExist) {
@@ -102,7 +101,7 @@ class UserService {
     }
 
 
-    const token = jwt.sign(jwtPayload,JWT_SECRET,{expiresIn:"1h"});
+    const token = jwt.sign(jwtPayload,process.env.JWT_SECRET,{expiresIn:"1h"});
     return { user: safeUser, token };
 
   }
