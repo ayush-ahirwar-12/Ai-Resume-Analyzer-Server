@@ -94,7 +94,7 @@ class UserService {
       );
       console.info(`Welcome email job queued for ${safeUser?.email}`);
     } catch (error) {
-      console.warn("Failed to queue Verification email", {
+      console.log("Failed to queue Verification email", {
         email: safeUser.email,
         error: error.message,
       });

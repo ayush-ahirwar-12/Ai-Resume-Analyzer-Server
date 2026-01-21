@@ -1,11 +1,13 @@
 import axios from "axios";
+import config from "../../config/environment.js"
+const {BREVO_API_KEY} = config;
 
-FRONTEND_URL = "http://localhost:8000";
-const BREVO_API_KEY = process.env.BREVO_API_KEY;
+// FRONTEND_URL = "http://localhost:8000";
+const BREVO_API = BREVO_API_KEY;
 const BREVO_URL = "https://api.brevo.com/v3/smtp/email";
 
 export async function sendVerificationEmail(user) {
-  const verificationLink = `${FRONTEND_URL}/user-verification/${user.id}`;
+  const verificationLink = "helllllllllllllllllo"
 
   try {
     const payload = {
@@ -96,7 +98,7 @@ AI-Resume Extractor
 
     const response = await axios.post(BREVO_URL, payload, {
       headers: {
-        "api-key": BREVO_API_KEY,
+        "api-key": BREVO_API,
         "Content-Type": "application/json",
       },
     });
