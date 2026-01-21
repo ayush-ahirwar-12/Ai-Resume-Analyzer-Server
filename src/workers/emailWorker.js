@@ -1,12 +1,13 @@
 import { tryCatch, Worker } from "bullmq";
 import connection from "../config/bullmq-connection.js";
+import { sendVerificationEmail } from "../services/emailServices/sendVerificationEmail.js";
 
 const worker = new Worker('email',async(job)=>{
     console.log(`processing job ${job.id} - ${job.name}`);
 
     try {
         if(job.name==='verification-mail'){
-            
+            await sendVerificationEmail(job.data)
         }
     } catch (error) {
         console.error(`job ${job.id} failed ${error.message}`,{error})
