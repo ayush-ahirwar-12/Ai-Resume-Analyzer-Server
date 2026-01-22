@@ -105,6 +105,10 @@ class UserService {
     return { user: safeUser, token };
 
   }
+
+  async login(email,password){
+    
+  }
 }
 
 export default UserService;
