@@ -41,13 +41,16 @@ class AuthController {
     try {
       const{email,password} = req.body;
 
-      const result = await this.UserService.login({email,password});
+      const result = await this.userService.login({email,password});
 
       res.cookie("token",result.token,{...this.cookieOptions,maxAge:60*60*1000})
 
+      res.cookie("refreshToken",result.refreshToken,{...this.cookieOptions,maxAge:60*60*1000});
+
+      res.status(200).json({success:true,expiresIn:3600,data:result});
 
     } catch (error) {
-      
+      next(error);
     }
   }
 }

@@ -1,8 +1,9 @@
 import { emailQueue } from "../queues/emailQueue.js";
 import MongoCacheRepository from "../repositories/implementations/MongoCacheRepository.js";
 import mongoUserRepository from "../repositories/implementations/mongoUserRepository.js";
-import  jwt from "jsonwebtoken"
-import config from "../config/environment.js"
+import jwt from "jsonwebtoken";
+import config from "../config/environment.js";
+import UserModel from "../models/user.model.js";
 
 class UserService {
   constructor() {
@@ -100,14 +101,17 @@ class UserService {
       });
     }
 
-
-    const token = jwt.sign(jwtPayload,process.env.JWT_SECRET,{expiresIn:"1h"});
+    const token = jwt.sign(jwtPayload, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
     return { user: safeUser, token };
-
   }
 
-  async login(email,password){
-    
+  async login(email, password) {
+    try {
+      const user = await this.UserRepository.findUserbyEmail(email);
+      if (!user) throw new Error("Invalid Credentials");
+    } catch (error) {}
   }
 }
 
