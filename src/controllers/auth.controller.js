@@ -36,6 +36,20 @@ class AuthController {
       next(error)
     }
   };
+  
+  login = async(req,res,next)=>{
+    try {
+      const{email,password} = req.body;
+
+      const result = await this.UserService.login({email,password});
+
+      res.cookie("token",result.token,{...this.cookieOptions,maxAge:60*60*1000})
+
+
+    } catch (error) {
+      
+    }
+  }
 }
 
 export default new AuthController();
