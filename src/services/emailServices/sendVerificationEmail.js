@@ -2,12 +2,12 @@ import axios from "axios";
 import config from "../../config/environment.js"
 const {BREVO_API_KEY} = config;
 
-// FRONTEND_URL = "http://localhost:8000";
+let FRONTEND_URL = "http://localhost:8000";
 const BREVO_API = BREVO_API_KEY
 const BREVO_URL = "https://api.brevo.com/v3/smtp/email";
 
 export async function sendVerificationEmail(user) {
-  const verificationLink = "helllllllllllllllllo"
+  const verificationLink = `${FRONTEND_URL}/api/auth/user-verification/${user.id}`
 
   try {
     const payload = {
