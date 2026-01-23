@@ -30,6 +30,7 @@ class AuthController {
       res.cookie("token", result.token, {
         ...this.cookieOptions,
         maxAge: 60 * 60 * 1000,
+
       });
       res.status(201).json({ success: true, data: result });
     } catch (error) {
@@ -49,6 +50,18 @@ class AuthController {
 
       res.status(200).json({success:true,expiresIn:3600,data:result});
 
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  update = async(req,res,next)=>{
+    try {
+          const userId = req.params.id;
+    const newData = req.body;
+    const result = this.userService.update(userId,newData);
+
+    res.status(200).json({success:true,data:result});
     } catch (error) {
       next(error);
     }
