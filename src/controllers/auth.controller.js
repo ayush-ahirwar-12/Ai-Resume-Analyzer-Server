@@ -41,7 +41,9 @@ class AuthController {
     try {
       const { email, password } = req.body;
 
-      const result = await this.userService.login({ email, password });
+      const result = await this.userService.login(email,password)
+      console.log(result);
+      
 
       res.cookie("token", result.token, {
         ...this.cookieOptions,
@@ -53,7 +55,7 @@ class AuthController {
         maxAge: 60 * 60 * 1000,
       });
 
-      res.status(200).json({ success: true, expiresIn: 3600, data: result });
+      res.status(200).json({ success: true, data: result ,expiresIn: 3600 });
     } catch (error) {
       next(error);
     }
