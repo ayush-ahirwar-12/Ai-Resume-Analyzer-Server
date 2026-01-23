@@ -118,21 +118,22 @@ class UserService {
   }
 
   async update(userId, newData) {
-    const updatedUser = this.UserRepository.update(userId, newData);
+    const updatedUser = await this.UserRepository.update(userId, newData);
     if (!updatedUser) {
       throw new AppError("User not Found", 404);
     }
+    
     const safeUser = this._getSafeUserPayload(updatedUser);
     await this.cacheRepository.set(
       `user:id:${userId}`,
       JSON.stringify(safeUser),
       3600,
     );
-    if (userData.email && userData.email !== user.email) {
-      await this.cacheRepository.del(`user:email:${userData.email}`);
+    if (newData.email && newDataData.email !== user.email) {
+      await this.cacheRepository.del(`user:email:${newData.email}`);
     }
     await this.cacheRepository.set(
-      `user:email:${user.email}`,
+      `user:email:${updatedUser.email}`,
       JSON.stringify(safeUser),
       3600,
     );

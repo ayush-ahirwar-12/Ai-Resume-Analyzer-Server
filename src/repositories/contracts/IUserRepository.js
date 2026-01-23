@@ -8,6 +8,9 @@ class IUserRepository {
   async findUserbyId(id) {
     throw new Error("method not implemented");
   }
+  async update(userId,newData){
+    throw new Error("method not implemented");
+  }
 }
 
 export default IUserRepository;

@@ -30,42 +30,46 @@ class AuthController {
       res.cookie("token", result.token, {
         ...this.cookieOptions,
         maxAge: 60 * 60 * 1000,
-
       });
       res.status(201).json({ success: true, data: result });
     } catch (error) {
-      next(error)
+      next(error);
     }
   };
-  
-  login = async(req,res,next)=>{
+
+  login = async (req, res, next) => {
     try {
-      const{email,password} = req.body;
+      const { email, password } = req.body;
 
-      const result = await this.userService.login({email,password});
+      const result = await this.userService.login({ email, password });
 
-      res.cookie("token",result.token,{...this.cookieOptions,maxAge:60*60*1000})
+      res.cookie("token", result.token, {
+        ...this.cookieOptions,
+        maxAge: 60 * 60 * 1000,
+      });
 
-      res.cookie("refreshToken",result.refreshToken,{...this.cookieOptions,maxAge:60*60*1000});
+      res.cookie("refreshToken", result.refreshToken, {
+        ...this.cookieOptions,
+        maxAge: 60 * 60 * 1000,
+      });
 
-      res.status(200).json({success:true,expiresIn:3600,data:result});
-
+      res.status(200).json({ success: true, expiresIn: 3600, data: result });
     } catch (error) {
       next(error);
     }
-  }
+  };
 
-  update = async(req,res,next)=>{
+  update = async (req, res, next) => {
     try {
-          const userId = req.params.id;
-    const newData = req.body;
-    const result = this.userService.update(userId,newData);
+      const userId = req.params.id;
+      const newData = req.body;
+      const result =await this.userService.update(userId, newData);
 
-    res.status(200).json({success:true,data:result});
+      res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
 
 export default new AuthController();
