@@ -5,12 +5,22 @@ import jwt from "jsonwebtoken";
 import config from "../config/environment.js";
 import UserModel from "../models/user.model.js";
 import { AppError } from "../utils/errors.js";
+import bcrypt from "bcrypt";
 
 class UserService {
   constructor() {
     this.UserRepository = new mongoUserRepository();
     this.cacheRepository = new MongoCacheRepository();
   }
+
+  async saveRefreshToken(userId, refreshToken) {
+    await this.cacheRepository.set(
+      `refresh:${userId}`,
+      refreshToken,
+      7 * 24 * 3600,
+    );
+  }
+
   _getSafeRole(user) {
     return user.role
       ? {
@@ -111,9 +121,26 @@ class UserService {
   async login({ email, password }) {
     try {
       const user = await this.UserRepository.findUserbyEmail(email);
-      if (!user) throw new Error("Invalid Credentials");
+      if (!user) throw new AppError("User not found", 404);
 
-      user.compare;
+      user.comparePassword = async (owd) => bcrypt.compare(pwd, user.password);
+
+      const isMatch = await user.comparePassword(password);
+      if (!isMatch) throw new AppError("Invalid Credentials", 401);
+
+      const userWithRole = await this.UserRepository.findUserbyId(user._id);
+      if (!userWithRole) throw new AppError("Failed to authenticate user", 500);
+
+      const safeUser = this._getSafeUserPayload(userWithRole);
+
+      const jwtPayload = {
+        id: safeUser._id,
+        email: safeUser.email,
+        firstName: safeUser.firstName,
+        lastName: safeUser.lastName,
+        role: safeUser?.role?.name,
+        isVerified: safeUser?.isVerified,
+      };
     } catch (error) {}
   }
 
@@ -122,7 +149,7 @@ class UserService {
     if (!updatedUser) {
       throw new AppError("User not Found", 404);
     }
-    
+
     const safeUser = this._getSafeUserPayload(updatedUser);
     await this.cacheRepository.set(
       `user:id:${userId}`,
