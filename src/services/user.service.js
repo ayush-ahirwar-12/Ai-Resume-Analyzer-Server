@@ -7,6 +7,8 @@ import UserModel from "../models/user.model.js";
 import { AppError } from "../utils/errors.js";
 import bcrypt from "bcrypt";
 
+const {JWT_SECRET,REFRESH_SECRET,REFRESH_EXPIRES} = config;
+
 class UserService {
   constructor() {
     this.UserRepository = new mongoUserRepository();
@@ -118,12 +120,12 @@ class UserService {
     return { user: safeUser, token };
   }
 
-  async login({ email, password }) {
+  async login( email, password ) {
     try {
       const user = await this.UserRepository.findUserbyEmail(email);
       if (!user) throw new AppError("User not found", 404);
 
-      user.comparePassword = async (owd) => bcrypt.compare(pwd, user.password);
+      user.comparePassword = async (pwd) => bcrypt.compare(pwd, user.password);
 
       const isMatch = await user.comparePassword(password);
       if (!isMatch) throw new AppError("Invalid Credentials", 401);
@@ -141,7 +143,24 @@ class UserService {
         role: safeUser?.role?.name,
         isVerified: safeUser?.isVerified,
       };
-    } catch (error) {}
+      // console.log("safeuser->",safeUser);
+      
+      const token = jwt.sign(jwtPayload,JWT_SECRET,{expiresIn:"1h"});
+      const refreshToken = jwt.sign({id:userWithRole._id},REFRESH_SECRET,{expiresIn:REFRESH_EXPIRES});
+
+      await this.saveRefreshToken(userWithRole._id,refreshToken)
+      
+      return {
+        user:safeUser,
+        token,
+        refreshToken
+
+      }
+    } catch (error) {
+      console.log(error);
+      
+      throw new AppError("Error in login",500,error)
+    }
   }
 
   async update(userId, newData) {
