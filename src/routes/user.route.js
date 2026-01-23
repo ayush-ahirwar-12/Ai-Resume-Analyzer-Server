@@ -10,4 +10,6 @@ router.post("/login",authController.login)
 
 router.patch("/user-verification/:id",authController.update);
 
+router.post("/logout",authController.logout);
+
 export default router;

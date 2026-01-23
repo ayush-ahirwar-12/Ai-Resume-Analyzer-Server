@@ -77,7 +77,8 @@ class AuthController {
   };
 
   logout = async(req,res,next)=>{
-    const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ","");
+    try {
+          const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ","");
     if(token){
       const decoded = this.AuthService.verifyToken(token);
       const exp = decoded.exp*1000;
@@ -86,6 +87,14 @@ class AuthController {
       await redisClient.setEx(`bl_${token}`,ttl,"blacklisted");
     }
     }
+    res.clearCookie("token",this.cookieOptions);
+    res.clearCookie("refreshToken",this.cookieOptions);
+
+    res.status(200).json({success:true,message:"logged out successfully"});
+    } catch (error) {
+      next(error)
+    }
+
   }
 }
 
