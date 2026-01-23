@@ -1,6 +1,7 @@
 import { tryCatch } from "bullmq";
 import userModel from "../../models/user.model.js";
 import IUserRepository from "../contracts/IUserRepository.js";
+import { AppError } from "../../utils/errors.js";
 
 class MongoUserRepository extends IUserRepository {
   async createUser(data) {
@@ -30,10 +31,9 @@ class MongoUserRepository extends IUserRepository {
   }
   async update(userId, newData) {
     try {
-      const user = await userModel.findByIdAndUpdate(userId, newData,{new:true});
-      return user;
+      return await userModel.findByIdAndUpdate(userId, newData, { new: true });
     } catch (error) {
-      console.log(error);
+      throw new AppError("Error in updating User", 500, error);
     }
   }
 }
