@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.post("/register",authController.register);
 
+router.patch("/user-verification/:id",authController.update);
+
 export default router;

@@ -107,11 +107,22 @@ class UserService {
     return { user: safeUser, token };
   }
 
-  async login(email, password) {
+  async login({email, password}) {
     try {
       const user = await this.UserRepository.findUserbyEmail(email);
       if (!user) throw new Error("Invalid Credentials");
+
+      user.compare
+
     } catch (error) {}
+  }
+
+  async update(userId,newData){
+    if(!userId){
+      throw new Error("UserId is required");
+    }
+    const result = this.UserRepository.update(userId,newData);
+    return result;
   }
 }
 
