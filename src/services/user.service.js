@@ -4,6 +4,7 @@ import mongoUserRepository from "../repositories/implementations/mongoUserReposi
 import jwt from "jsonwebtoken";
 import config from "../config/environment.js";
 import UserModel from "../models/user.model.js";
+import { AppError } from "../utils/errors.js";
 
 class UserService {
   constructor() {
@@ -107,22 +108,35 @@ class UserService {
     return { user: safeUser, token };
   }
 
-  async login({email, password}) {
+  async login({ email, password }) {
     try {
       const user = await this.UserRepository.findUserbyEmail(email);
       if (!user) throw new Error("Invalid Credentials");
 
-      user.compare
-
+      user.compare;
     } catch (error) {}
   }
 
-  async update(userId,newData){
-    if(!userId){
-      throw new Error("UserId is required");
+  async update(userId, newData) {
+    const updatedUser = this.UserRepository.update(userId, newData);
+    if (!updatedUser) {
+      throw new AppError("User not Found", 404);
     }
-    const result = this.UserRepository.update(userId,newData);
-    return result;
+    const safeUser = this._getSafeUserPayload(updatedUser);
+    await this.cacheRepository.set(
+      `user:id:${userId}`,
+      JSON.stringify(safeUser),
+      3600,
+    );
+    if (userData.email && userData.email !== user.email) {
+      await this.cacheRepository.del(`user:email:${userData.email}`);
+    }
+    await this.cacheRepository.set(
+      `user:email:${user.email}`,
+      JSON.stringify(safeUser),
+      3600,
+    );
+    return safeUser;
   }
 }
 
