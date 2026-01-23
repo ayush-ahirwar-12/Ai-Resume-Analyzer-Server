@@ -1,9 +1,12 @@
 import { tryCatch } from "bullmq";
 import UserService from "../services/user.service.js";
+import AuthService from "../services/auth.service.js";
+import { redisClient } from "../config/redis.js";
 
 class AuthController {
   constructor() {
-    this.userService = new UserService();
+    this.UserService = new UserService();
+    this.AuthService = new AuthService();
   }
   get cookieOptions() {
     const isProd = process.env.NODE_ENV === "production";
@@ -25,7 +28,7 @@ class AuthController {
   register = async (req, res, next) => {
     try {
       const userData = req.body;
-      const result = await this.userService.createUser(userData);
+      const result = await this.UserService.createUser(userData);
 
       res.cookie("token", result.token, {
         ...this.cookieOptions,
@@ -41,7 +44,7 @@ class AuthController {
     try {
       const { email, password } = req.body;
 
-      const result = await this.userService.login(email,password)
+      const result = await this.UserService.login(email,password)
       console.log(result);
       
 
@@ -65,13 +68,25 @@ class AuthController {
     try {
       const userId = req.params.id;
       const newData = req.body;
-      const result =await this.userService.update(userId, newData);
+      const result =await this.UserService.update(userId, newData);
 
       res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);
     }
   };
+
+  logout = async(req,res,next)=>{
+    const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ","");
+    if(token){
+      const decoded = this.AuthService.verifyToken(token);
+      const exp = decoded.exp*1000;
+    const ttl = Math.floor((exp-Date.now())/1000);
+    if(ttl>0){
+      await redisClient.setEx(`bl_${token}`,ttl,"blacklisted");
+    }
+    }
+  }
 }
 
 export default new AuthController();
