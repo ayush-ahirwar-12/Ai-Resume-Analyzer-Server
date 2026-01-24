@@ -17,7 +17,7 @@ export const authMiddleware = async (req, res, next) => {
 
     const decoded = jwt.verify(token, config.JWT_SECRET);
     if (!decoded.isVerified || decoded.isVerified === false) {
-      throw new AppError("user is not verified", 401);
+      throw new AppError("user is not verified", 401)
     }
 
     req.userId = decoded.id;
