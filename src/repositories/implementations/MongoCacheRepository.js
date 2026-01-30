@@ -12,9 +12,9 @@ class MongoCacheRepository extends ICacheRepository {
   }
   async set(key, value, ttl) {
     try {
-      await redisClient.setEx(key, ttl, JSON.stringify(value));
+      await redisClient.setEx(key, ttl, JSON.stringify(value))
     } catch (error) {
-      throw new Error("Failed to set cache", 500, error);
+      throw new Error("Failed to set cache", 500, error)
     }
   }
   async del(key) {
