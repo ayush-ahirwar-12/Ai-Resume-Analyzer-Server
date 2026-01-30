@@ -13,4 +13,4 @@ router.patch("/user-verification/:id",authMiddleware,authController.update);
 
 router.post("/logout",authMiddleware,authController.logout);
 
-export default router;
+export default router
