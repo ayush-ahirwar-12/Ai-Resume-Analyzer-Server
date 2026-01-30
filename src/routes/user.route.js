@@ -1,6 +1,6 @@
 import express from "express";
 import authController from "../controllers/auth.controller.js";
-import { authMiddleware } from "../middlewares/authMiddleware..js";
+// import { authMiddleware } from "../middlewares/authMiddleware..js";
 
 const router = express.Router();
 
@@ -14,3 +14,4 @@ router.patch("/user-verification/:id",authMiddleware,authController.update);
 router.post("/logout",authMiddleware,authController.logout);
 
 export default router;
+// kJDfkjskdjfkjsdkf
