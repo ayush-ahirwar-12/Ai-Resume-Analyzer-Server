@@ -10,4 +10,4 @@ export async function connecDb() {
     console.log("Error while connecting database", error);
     process.exit(1);
   }
-}
+};
