@@ -182,7 +182,7 @@ class UserService {
       `user:email:${updatedUser.email}`,
       JSON.stringify(safeUser),
       3600,
-    );
+    )
     return safeUser;
   }
 }
