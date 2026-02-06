@@ -133,7 +133,7 @@ class UserService {
       const userWithRole = await this.UserRepository.findUserbyId(user._id);
       if (!userWithRole) throw new AppError("Failed to authenticate user", 500);
 
-      const safeUser = this._getSafeUserPayload(userWithRole);
+      const safeUser = this._getSafeUserPayload(userWithRole)
 
       const jwtPayload = {
         id: safeUser._id,
@@ -159,7 +159,7 @@ class UserService {
     } catch (error) {
       console.log(error);
       
-      throw new AppError("Error in login",500,error)
+      throw new AppError("Error in login",500,error);
     }
   }
 
