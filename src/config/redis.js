@@ -14,12 +14,12 @@ const cacheClient = redis.createClient({
 cacheClient.on("error",(err)=>{
     console.error("Redis connection error:",err.message);
 
-})
+});
 
 cacheClient.on("connect",()=>{
     console.log("Redis connected successfully");
 
-})
+});
 
 export async function connectRedis(){
     try {
