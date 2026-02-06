@@ -26,4 +26,4 @@ class MongoCacheRepository extends ICacheRepository {
   }
 };
 
-export default MongoCacheRepository
+export default MongoCacheRepository;
