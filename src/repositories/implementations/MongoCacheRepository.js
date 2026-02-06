@@ -24,6 +24,6 @@ class MongoCacheRepository extends ICacheRepository {
       throw new Error("Failed to delete cache", 500, error);
     }
   }
-}
+};
 
 export default MongoCacheRepository

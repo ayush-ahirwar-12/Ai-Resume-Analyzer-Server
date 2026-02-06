@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/register",authController.register);
 
-router.post("/login",authController.login)
+router.post("/login",authController.login);
 
 router.patch("/user-verification/:id",authMiddleware,authController.update);
 

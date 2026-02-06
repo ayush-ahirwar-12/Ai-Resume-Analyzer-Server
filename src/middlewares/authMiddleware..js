@@ -28,6 +28,6 @@ export const authMiddleware = async (req, res, next) => {
     };
     next();
   } catch (error) {
-    next(new AppError(error || "Invalid or expired token.", 401))
+    next(new AppError(error || "Invalid or expired token.", 401));
   }
-}
+};
