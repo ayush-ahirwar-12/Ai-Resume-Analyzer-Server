@@ -85,17 +85,17 @@ class AuthController {
     const ttl = Math.floor((exp-Date.now())/1000);
     if(ttl>0){
       await redisClient.setEx(`bl_${token}`,ttl,"blacklisted");
-    }
-    }
+    };
+    };
     res.clearCookie("token",this.cookieOptions)
     res.clearCookie("refreshToken",this.cookieOptions);
 
     res.status(200).json({success:true,message:"logged out successfully"});
     } catch (error) {
       next(error)
-    }
+    };
 
-  }
-}
+  };
+};
 
 export default new AuthController();
