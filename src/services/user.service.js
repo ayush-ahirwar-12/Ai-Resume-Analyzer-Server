@@ -183,8 +183,9 @@ class UserService {
       JSON.stringify(safeUser),
       3600,
     )
-    return safeUser;
+    return safeUser
   }
 }
 
-export default UserService;
+export default UserService
+//lkskjfgkajlgj;lkjg
