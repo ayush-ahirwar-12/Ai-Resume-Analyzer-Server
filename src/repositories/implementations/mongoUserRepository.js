@@ -38,4 +38,4 @@ class MongoUserRepository extends IUserRepository {
   }
 }
 
-export default MongoUserRepository
+export default MongoUserRepository;
