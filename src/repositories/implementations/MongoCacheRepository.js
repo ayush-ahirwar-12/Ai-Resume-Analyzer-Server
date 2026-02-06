@@ -21,7 +21,7 @@ class MongoCacheRepository extends ICacheRepository {
     try {
       await redisClient.del(key);
     } catch (error) {
-      throw new Error("Failed to delete cache", 500, error);
+      throw new Error("Failed to delete", 500, error);
     }
   }
 }
