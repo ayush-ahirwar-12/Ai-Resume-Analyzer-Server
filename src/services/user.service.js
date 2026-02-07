@@ -185,6 +185,6 @@ class UserService {
     )
     return safeUser
   };
-};
+}
 
 export default UserService;
