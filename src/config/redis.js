@@ -28,8 +28,8 @@ export async function connectRedis(){
             console.error("Redis connection error:",error.message);
             process.exit(1);
 
-    }
-}
+    };
+};
 
 export const redisClient = cacheClient;
 
