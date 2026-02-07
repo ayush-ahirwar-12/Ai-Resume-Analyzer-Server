@@ -33,9 +33,9 @@ class MongoUserRepository extends IUserRepository {
     try {
       return await userModel.findByIdAndUpdate(userId, newData, { new: true });
     } catch (error) {
-      throw new AppError("Error in updating User", 501, error);
+      throw new AppError("Error in updating User", 501, error)
     }
   }
 }
 
-export default MongoUserRepository;
+export default MongoUserRepository
