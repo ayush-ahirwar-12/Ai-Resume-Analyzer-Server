@@ -4,8 +4,8 @@ import ICacheRepository from "../contracts/ICacheRepository.js";
 class MongoCacheRepository extends ICacheRepository {
   async get() {
     try {
-      const data = await redisClient.get(key);
-      return data ? JSON.parse(data) : null;
+      const data = await redisClient.get(key)
+      return data ? JSON.parse(data) : null
     } catch (error) {
       throw new Error("Failed to get cache", 500, error);
     };
