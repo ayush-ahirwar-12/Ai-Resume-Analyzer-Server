@@ -167,7 +167,7 @@ class UserService {
     const updatedUser = await this.UserRepository.update(userId, newData);
     if (!updatedUser) {
       throw new AppError("User not Found", 404);
-    }
+    };
 
     const safeUser = this._getSafeUserPayload(updatedUser);
     await this.cacheRepository.set(
@@ -177,7 +177,7 @@ class UserService {
     );
     if (newData.email && newDataData.email !== user.email) {
       await this.cacheRepository.del(`user:email:${newData.email}`);
-    };
+    }
     await this.cacheRepository.set(
       `user:email:${updatedUser.email}`,
       JSON.stringify(safeUser),
