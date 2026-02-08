@@ -13,4 +13,4 @@ class IUserRepository {
   };
 };
 
-export default IUserRepository;
+export default IUserRepository
