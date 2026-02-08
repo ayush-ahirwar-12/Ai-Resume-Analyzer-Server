@@ -176,7 +176,7 @@ class UserService {
       3600,
     );
     if (newData.email && newDataData.email !== user.email) {
-      await this.cacheRepository.del(`user:email:${newData.email}`);
+      await this.cacheRepository.del(`user:email:${newData.email}`)
     }
     await this.cacheRepository.set(
       `user:email:${updatedUser.email}`,
