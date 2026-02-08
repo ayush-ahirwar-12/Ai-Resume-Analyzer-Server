@@ -160,11 +160,11 @@ class UserService {
       console.log(error);
       
       throw new AppError("Error in login",500,error);
-    };
-  };
+    }
+  }
 
   async update(userId, newData) {
-    const updatedUser = await this.UserRepository.update(userId, newData);
+    const updatedUser = await this.UserRepository.update(userId, newData)
     if (!updatedUser) {
       throw new AppError("User not Found", 404);
     };
