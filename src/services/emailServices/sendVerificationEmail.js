@@ -94,14 +94,14 @@ If you did not create an account, you can ignore this email.
 Regards,
 AI-Resume Extractor
   `,
-    };
+    }
 
     const response = await axios.post(BREVO_URL, payload, {
       headers: {
         "api-key": BREVO_API,
         "Content-Type": "application/json",
       },
-    });
+    })
 
     console.log("Verification Email sent:", response.data.messageId);
     return response.data;
@@ -113,3 +113,4 @@ AI-Resume Extractor
     throw error;
   };
 };
+// kzkcksjvkljsdjfkljsdk
