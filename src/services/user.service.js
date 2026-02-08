@@ -143,7 +143,6 @@ class UserService {
         role: safeUser?.role?.name,
         isVerified: safeUser?.isVerified,
       };
-      // console.log("safeuser->",safeUser);
       
       const token = jwt.sign(jwtPayload,JWT_SECRET,{expiresIn:"1h"});
       const refreshToken = jwt.sign({id:userWithRole._id},REFRESH_SECRET,{expiresIn:REFRESH_EXPIRES});
@@ -157,7 +156,7 @@ class UserService {
 
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
       
       throw new AppError("Error in login",500,error);
     }
