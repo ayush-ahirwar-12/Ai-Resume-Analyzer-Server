@@ -37,7 +37,7 @@ class AuthController {
       res.status(201).json({ success: true, data: result });
     } catch (error) {
       next(error);
-    }
+    };
   };
 
   login = async (req, res, next) => {
@@ -61,7 +61,7 @@ class AuthController {
       res.status(200).json({ success: true, data: result ,expiresIn: 3600 });
     } catch (error) {
       next(error);
-    }
+    };
   };
 
   update = async (req, res, next) => {
@@ -73,7 +73,7 @@ class AuthController {
       res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);
-    }
+    };
   };
 
   logout = async(req,res,next)=>{
