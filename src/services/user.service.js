@@ -53,8 +53,8 @@ class UserService {
       if (isExist) {
         await this.cacheRepository.set(cacheKey, JSON.stringify(isExist), 3600);
         console.log(isExist, "existuser");
-      }
-    }
+      };
+    };
     if (isExist) {
       throw new Error("Email already exists", 409);
     }
