@@ -3,7 +3,6 @@ import MongoCacheRepository from "../repositories/implementations/MongoCacheRepo
 import mongoUserRepository from "../repositories/implementations/mongoUserRepository.js";
 import jwt from "jsonwebtoken";
 import config from "../config/environment.js";
-import UserModel from "../models/user.model.js";
 import { AppError } from "../utils/errors.js";
 import bcrypt from "bcrypt";
 
@@ -21,7 +20,7 @@ class UserService {
       refreshToken,
       7 * 24 * 3600,
     );
-  }
+  };
 
   _getSafeRole(user) {
     return user.role
@@ -31,7 +30,7 @@ class UserService {
           description: user.role.description,
         }
       : null;
-  }
+  };
 
   _getSafeUserPayload(user) {
     return {
