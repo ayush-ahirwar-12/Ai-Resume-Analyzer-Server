@@ -11,5 +11,5 @@ export const emailQueue = new Queue("email",{
         },
         removeOnComplete:true,
         removeOnFail:false
-    }
+    },
 });
