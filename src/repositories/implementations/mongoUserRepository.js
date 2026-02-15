@@ -36,6 +36,6 @@ class MongoUserRepository extends IUserRepository {
       throw new AppError("Error in updating User", 501, error);
     }
   }
-}
+};
 
 export default MongoUserRepository;
