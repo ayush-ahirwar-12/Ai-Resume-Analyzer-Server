@@ -7,7 +7,7 @@ class AuthController {
   constructor() {
     this.UserService = new UserService();
     this.AuthService = new AuthService();
-  }
+  };
   get cookieOptions() {
     const isProd = process.env.NODE_ENV === "production";
     console.log(process.env.NODE_ENV);
@@ -23,7 +23,7 @@ class AuthController {
       sameSite: isProd ? "none" : "lax",
       path: "/",
     };
-  }
+  };
 
   register = async (req, res, next) => {
     try {
