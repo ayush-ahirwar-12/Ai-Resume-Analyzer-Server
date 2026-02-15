@@ -27,15 +27,15 @@ class MongoUserRepository extends IUserRepository {
       return user;
     } catch (error) {
       console.log("Error in finding user", error);
-    }
-  }
+    };
+  };
   async update(userId, newData) {
     try {
       return await userModel.findByIdAndUpdate(userId, newData, { new: true });
     } catch (error) {
       throw new AppError("Error in updating User", 501, error);
-    }
-  }
+    };
+  };
 };
 
 export default MongoUserRepository;
