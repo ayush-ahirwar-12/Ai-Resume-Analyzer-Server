@@ -3,11 +3,11 @@ import config from "../../config/environment.js"
 const {BREVO_API_KEY} = config;
 
 let FRONTEND_URL = "http://localhost:8000";
-const BREVO_API = BREVO_API_KEY
+const BREVO_API = BREVO_API_KEY;
 const BREVO_URL = "https://api.brevo.com/v3/smtp/email";
 
 export async function sendVerificationEmail(user) {
-  const verificationLink = `${FRONTEND_URL}/api/auth/user-verification/${user.id}`
+  const verificationLink = `${FRONTEND_URL}/api/auth/user-verification/${user.id}`;
 
   try {
     const payload = {
@@ -101,7 +101,7 @@ AI-Resume Extractor
         "api-key": BREVO_API,
         "Content-Type": "application/json",
       },
-    })
+    });
 
     console.log("Verification Email sent:", response.data.messageId);
     return response.data;
@@ -113,4 +113,3 @@ AI-Resume Extractor
     throw error;
   };
 };
-// kzkcksjvkljsdjfkljsdk
