@@ -57,7 +57,7 @@ class UserService {
     };
     if (isExist) {
       throw new Error("Email already exists", 409);
-    }
+    };
 
     const user = await this.UserRepository.createUser({ ...data, email });
 
@@ -111,13 +111,13 @@ class UserService {
         email: safeUser.email,
         error: error.message,
       });
-    }
+    };
 
     const token = jwt.sign(jwtPayload, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     return { user: safeUser, token };
-  }
+  };
 
   async login( email, password ) {
     try {
