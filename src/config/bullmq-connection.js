@@ -6,4 +6,4 @@ const connection = {
     password:process.env.REDIS_PASSWORD
 }
 
-export default connection
+export default connection;

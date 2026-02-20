@@ -11,4 +11,4 @@ export default {
     REFRESH_SECRET:process.env.REFRESH_SECRET,
     JWT_SECRET:process.env.JWT_SECRET,
     REFRESH_EXPIRES:process.env.REFRESH_EXPIRES
-};
+}
