@@ -111,11 +111,11 @@ class UserService {
         email: safeUser.email,
         error: error.message,
       });
-    };
+    }
 
     const token = jwt.sign(jwtPayload, process.env.JWT_SECRET, {
       expiresIn: "1h",
-    });
+    })
     return { user: safeUser, token };
   };
 
