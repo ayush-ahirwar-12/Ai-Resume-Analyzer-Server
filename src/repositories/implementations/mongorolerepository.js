@@ -12,8 +12,8 @@ class mongoRoleRepository extends IRoleRepository {
         throw new AppError("Role name already exists", 409)
       }
       throw new AppError("Failed to create role", 500);
-    }
-  }
+    };
+  };
 
   async findRoleByName(Role) {
     try {
