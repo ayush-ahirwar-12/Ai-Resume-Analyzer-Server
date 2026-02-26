@@ -15,5 +15,14 @@ class mongoRoleRepository extends IRoleRepository {
     }
   }
 
-  
+  async findRoleByName(Role) {
+    try {
+      const role = await roleModel.findOne(Role);
+      return role;
+    } catch (error) {
+      throw new AppError("Failed to find role", 404);
+    }
+  }
 }
+
+export default mongoRoleRepository;
