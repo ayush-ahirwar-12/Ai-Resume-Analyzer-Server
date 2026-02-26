@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json())
 app.use(cookie());
 
-app.use("/api/auth",AuthRoute);
+app.use("/api/auth",AuthRoute)
 app.use("/api/role",RoleRoute)
 
 export default app;
