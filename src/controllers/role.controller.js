@@ -1,4 +1,4 @@
-import RoleService from "../services/role.service";
+import RoleService from "../services/role.service.js";
 
 class RoleController {
   constructor() {
