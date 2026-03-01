@@ -1,6 +1,6 @@
-import roleModel from "../../models/role.model";
-import { AppError } from "../../utils/errors";
-import IRoleRepository from "../contracts/IRoleRepository";
+import roleModel from "../../models/role.model.js";
+import { AppError } from "../../utils/errors.js";
+import IRoleRepository from "../contracts/IRoleRepository.js";
 
 class mongoRoleRepository extends IRoleRepository {
   async createRole(RoleData) {
