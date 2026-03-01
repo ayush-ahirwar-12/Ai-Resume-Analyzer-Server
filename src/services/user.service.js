@@ -155,7 +155,7 @@ class UserService {
 
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       
       throw new AppError("Error in login",500,error);
     }

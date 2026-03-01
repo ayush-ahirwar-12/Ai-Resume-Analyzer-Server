@@ -9,7 +9,7 @@ class RoleService {
     const existingRole = await this.roleRepository.findRoleByName(
       RoleData.name,
     )
-    if (role) {
+    if (existingRole) {
       throw new AppError("Role already exists", 400)
     }
     return await this.roleRepository.createRole(RoleData)
