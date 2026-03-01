@@ -10,5 +10,7 @@ export default {
     BREVO_API_KEY:process.env.BREVO_API_KEY,
     REFRESH_SECRET:process.env.REFRESH_SECRET,
     JWT_SECRET:process.env.JWT_SECRET,
-    REFRESH_EXPIRES:process.env.REFRESH_EXPIRES
+    REFRESH_EXPIRES:process.env.REFRESH_EXPIRES,
+    AWS_ACCESS_KEY:process.env.AWS_ACCESS_KEY,
+    AWS_SECRET_KEY:process.env.AWS_SECRET_KEY
 }
