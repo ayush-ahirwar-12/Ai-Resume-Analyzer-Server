@@ -1,5 +1,5 @@
-import mongoRoleRepository from "../repositories/implementations/mongorolerepository";
-import { AppError } from "../utils/errors";
+import mongoRoleRepository from "../repositories/implementations/mongorolerepository.js";
+import { AppError } from "../utils/errors.js";
 
 class RoleService {
   constructor() {
