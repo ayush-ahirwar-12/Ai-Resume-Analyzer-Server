@@ -13,7 +13,7 @@ export const authorize = async (role) => {
       next();
     } catch (error) {
       next(error);
-    }
+    };
   };
 };
 

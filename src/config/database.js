@@ -1,5 +1,5 @@
 import config from "./environment.js";
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 const { MONGO_URI } = config;
 
 export async function connecDb() {
@@ -9,5 +9,5 @@ export async function connecDb() {
   } catch (error) {
     console.log("Error while connecting database", error);
     process.exit(1);
-  }
-}
+  };
+};
