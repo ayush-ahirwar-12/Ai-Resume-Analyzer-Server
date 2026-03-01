@@ -1,9 +1,9 @@
-import AuthService from "../services/auth.service";
-import { AppError } from "../utils/errors";
+import AuthService from "../services/auth.service.js";
+import { AppError } from "../utils/errors.js";
 
 const authService = new AuthService();
 
-const authorize = async (role) => {
+export const authorize = async (role) => {
   return async (req, res, next) => {
     try {
       const permission = await authService.hasPermission(req.userId, role);
@@ -17,4 +17,4 @@ const authorize = async (role) => {
   };
 };
 
-export default authorize;
+

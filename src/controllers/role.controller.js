@@ -4,7 +4,7 @@ class RoleController {
   constructor() {
     this.roleService = new RoleService();
   }
-  createRole = async (req, res) => {
+  createRole = async (req, res,next) => {
     try {
       const role = await this.roleService.createRole(req.body);
       return res.status(201).json({ success: true, data: role });
