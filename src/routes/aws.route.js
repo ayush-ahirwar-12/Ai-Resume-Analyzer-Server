@@ -1,8 +1,12 @@
 import express from "express"
 import { putObjectS3 } from "../config/getAwsS3ObjectPutUrl.js";
+import { authMiddleware } from "../middlewares/authMiddleware..js";
+import resumeController from "../controllers/resume.controller.js";
 
 const router = express.Router();
 
-router.post("/presignedurl-s3",putObjectS3);
+router.post("/upload-url",authMiddleware,resumeController.getUploadUrl);
+router.post("/save",authMiddleware,resumeController.saveResumeMetaData);
+router.post("/extract/:resumeId", authMiddleware, resumeController.extractResumeText);
 
 export default router;
