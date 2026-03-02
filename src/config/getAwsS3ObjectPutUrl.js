@@ -12,17 +12,17 @@ export const s3 = new S3Client({
     }
 })
 
-export const putObject = async (req, res) => {
+export const putObjectS3 = async (req, res) => {
     try {
-        const { fileName, contentType } = req.body;
-        if (!fileName || !contentType) {
+        const {contentType } = req.body;
+        if (!contentType) {
             throw new Error("Please provide the fileName and contentType ");
         }
 
         const command = new PutObjectCommand({
             Bucket: AWS_BUCKET_NAME,
-            Key: `resumes/${Date.now()}-${fileName}`,
-            ContentType: fileType
+            Key: `resumes/${Date.now()}-jj`,
+            ContentType: contentType
         })
         const url = await getSignedUrl(s3, command, { expiresIn: 60 });
         res.status(200).json(url)
