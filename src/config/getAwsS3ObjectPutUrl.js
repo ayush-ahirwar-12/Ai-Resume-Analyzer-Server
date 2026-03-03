@@ -2,6 +2,8 @@ import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3
 import config from "./environment.js"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { AppError } from "../utils/errors.js";
+import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
+
 
 const { AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME } = config;
 
@@ -20,9 +22,9 @@ export const putObjectS3 = async (fileName, fileType) => {
         const command = new PutObjectCommand({
             Bucket: AWS_BUCKET_NAME,
             Key: key,
-            ContentType: contentType
+            ContentType:fileType
         })
-        const url = await getSignedUrl(s3, command, { expiresIn: 60 });
+        const url = await getSignedUrl(s3, command);
         return { url, key }
     } catch (error) {
         throw new AppError("Failed to generate aws url", 400);
@@ -32,21 +34,31 @@ export const putObjectS3 = async (fileName, fileType) => {
 export const extractedTextFromS3 = async (key) => {
     const command = new GetObjectCommand({
         Bucket: AWS_BUCKET_NAME,
-        Key: key
+        Key: key,
     });
+
     const response = await s3.send(command);
-    const streamToBuffer = (stream) => {
-        new promise((resolve, reject) => {
+
+    const streamToBuffer = (stream) =>
+        new Promise((resolve, reject) => {
             const chunks = [];
             stream.on("data", (chunk) => chunks.push(chunk));
             stream.on("error", reject);
             stream.on("end", () => resolve(Buffer.concat(chunks)));
+        });
 
-        })
+    const buffer = await streamToBuffer(response.Body);
 
+    const pdf = await getDocument({ data: buffer }).promise;
+
+    let fullText = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        const strings = content.items.map(item => item.str);
+        fullText += strings.join(" ") + "\n";
     }
-        const buffer= await streamToBuffer(response.Body);
-        const data = await pdfParse(buffer);
-        return data.text;
 
-}
+    return fullText;
+};

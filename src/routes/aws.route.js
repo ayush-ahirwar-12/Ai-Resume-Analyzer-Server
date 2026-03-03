@@ -1,5 +1,4 @@
 import express from "express"
-import { putObjectS3 } from "../config/getAwsS3ObjectPutUrl.js";
 import { authMiddleware } from "../middlewares/authMiddleware..js";
 import resumeController from "../controllers/resume.controller.js";
 

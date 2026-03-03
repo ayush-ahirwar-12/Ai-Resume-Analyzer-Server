@@ -1,6 +1,6 @@
-import { putObjectS3 } from "../config/getAwsS3ObjectPutUrl";
-import resumeModel from "../models/resume.model";
-import { AppError } from "../utils/errors";
+import { extractedTextFromS3, putObjectS3 } from "../config/getAwsS3ObjectPutUrl.js";
+import resumeModel from "../models/resume.model.js";
+import { AppError } from "../utils/errors.js";
 
 class resumeController {
     getUploadUrl = async (req, res) => {
@@ -17,7 +17,9 @@ class resumeController {
                 key,
             });
         } catch (error) {
-            throw new AppError("Failed to generate upload url", 500)
+            console.log(error);
+            
+            throw new AppError("Failed to generate upload url", 500,error)
         }
     }
 
@@ -26,7 +28,7 @@ class resumeController {
             const { fileName, key } = req.body;
 
             const resume = await resumeModel.create({
-                userId: req.user.id,
+                userId: req.userId,
                 fileName,
                 s3Key: key,
             });
@@ -36,6 +38,8 @@ class resumeController {
                 resume,
             });
         } catch (error) {
+            console.log(error);
+            
             throw new AppError("Failed to save resume meta data", 500, error);
         }
     }
@@ -50,7 +54,7 @@ class resumeController {
                 return res.status(404).json({ message: "Resume not found" });
             }
 
-            const extractedText = await extractTextFromS3(resume.s3Key);
+            const extractedText = await extractedTextFromS3(resume.s3Key);
 
             resume.extractedText = extractedText;
             await resume.save();
@@ -60,6 +64,8 @@ class resumeController {
                 extractedText,
             });
         } catch (error) {
+            console.log(error);
+            
             throw new AppError("Failed to extract text from resume",500,error);
         }
     }
