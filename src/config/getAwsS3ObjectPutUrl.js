@@ -2,8 +2,8 @@ import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3
 import config from "./environment.js"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { AppError } from "../utils/errors.js";
-import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.js";
 
 const { AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME } = config;
 
@@ -32,7 +32,8 @@ export const putObjectS3 = async (fileName, fileType) => {
 }
 
 export const extractedTextFromS3 = async (key) => {
-    const command = new GetObjectCommand({
+try {
+        const command = new GetObjectCommand({
         Bucket: AWS_BUCKET_NAME,
         Key: key,
     });
@@ -49,7 +50,14 @@ export const extractedTextFromS3 = async (key) => {
 
     const buffer = await streamToBuffer(response.Body);
 
-    const pdf = await getDocument({ data: buffer }).promise;
+const pdfjs = pdfjsLib.default;
+
+pdfjs.GlobalWorkerOptions.workerSrc = null;
+
+const uint8Array = new Uint8Array(buffer);
+
+const loadingTask = pdfjs.getDocument({ data: uint8Array });
+const pdf = await loadingTask.promise;
 
     let fullText = "";
 
@@ -61,4 +69,8 @@ export const extractedTextFromS3 = async (key) => {
     }
 
     return fullText;
+} catch (error) {
+    console.log(error);
+    
+}
 };
