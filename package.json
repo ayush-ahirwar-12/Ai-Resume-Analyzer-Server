@@ -13,6 +13,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1000.0",
     "@aws-sdk/s3-request-presigner": "^3.1000.0",
+    "@napi-rs/canvas": "^0.1.95",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
     "bullmq": "^5.66.5",
@@ -23,6 +24,7 @@
     "mongodb": "^7.1.0",
     "mongoose": "^9.2.3",
     "nodemon": "^3.1.14",
+    "pdfjs-dist": "^3.11.174",
     "redis": "^5.10.0"
   }
 }
