@@ -44,6 +44,8 @@ class UserService {
     };
   }''
   async createUser(data) {
+    console.log("data---->",data);
+    
     const email = data.email.toLowerCase().trim();
     const cacheKey = `user:email:${email}`;
 

@@ -2,6 +2,8 @@ import { tryCatch } from "bullmq";
 import UserService from "../services/user.service.js";
 import AuthService from "../services/auth.service.js";
 import { redisClient } from "../config/redis.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 class AuthController {
   constructor() {
