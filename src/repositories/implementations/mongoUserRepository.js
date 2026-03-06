@@ -28,13 +28,13 @@ class MongoUserRepository extends IUserRepository {
   async findUserbyId(Id) {
     const isValid = mongoose.Types.ObjectId.isValid(Id)
     if (!isValid) {
-      console.log("ERROR: Invalid ObjectId format:", id);
+      console.log("ERROR: Invalid ObjectId format:", Id);
       return null;
     }
-    const objectId = new mongoose.Types.ObjectId(id);
+    const objectId = new mongoose.Types.ObjectId(Id);
 
     try {
-      const [user] = userModel.aggregate([
+      const [user] = await userModel.aggregate([
         { $match: { _id: objectId } },
         {
           $lookup: {
