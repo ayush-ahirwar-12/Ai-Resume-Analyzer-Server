@@ -6,7 +6,7 @@ import config from "../config/environment.js";
 import { AppError } from "../utils/errors.js";
 import bcrypt from "bcrypt";
 
-const {JWT_SECRET,REFRESH_SECRET,REFRESH_EXPIRES} = config;
+const { JWT_SECRET, REFRESH_SECRET, REFRESH_EXPIRES } = config;
 
 class UserService {
   constructor() {
@@ -25,10 +25,10 @@ class UserService {
   _getSafeRole(user) {
     return user.role
       ? {
-          _id: user.role._id,
-          name: user.role.name,
-          description: user.role.description,
-        }
+        _id: user.role._id,
+        name: user.role.name,
+        description: user.role.description,
+      }
       : null;
   };
 
@@ -42,10 +42,10 @@ class UserService {
       role: this._getSafeRole(user),
       isVerified: user.isVerified,
     };
-  }''
+  } ''
   async createUser(data) {
-    console.log("data---->",data);
-    
+    console.log("data---->", data);
+
     const email = data.email.toLowerCase().trim();
     const cacheKey = `user:email:${email}`;
 
@@ -121,7 +121,7 @@ class UserService {
     return { user: safeUser, token };
   };
 
-  async login( email, password ) {
+  async login(email, password) {
     try {
       const user = await this.UserRepository.findUserbyEmail(email);
       if (!user) throw new AppError("User not found", 404);
@@ -144,22 +144,22 @@ class UserService {
         role: safeUser?.role?.name,
         isVerified: safeUser?.isVerified,
       };
-      
-      const token = jwt.sign(jwtPayload,JWT_SECRET,{expiresIn:"1h"});
-      const refreshToken = jwt.sign({id:userWithRole._id},REFRESH_SECRET,{expiresIn:REFRESH_EXPIRES});
 
-      await this.saveRefreshToken(userWithRole._id,refreshToken)
-      
+      const token = jwt.sign(jwtPayload, JWT_SECRET, { expiresIn: "1h" });
+      const refreshToken = jwt.sign({ id: userWithRole._id }, REFRESH_SECRET, { expiresIn: REFRESH_EXPIRES });
+
+      await this.saveRefreshToken(userWithRole._id, refreshToken)
+
       return {
-        user:safeUser,
+        user: safeUser,
         token,
         refreshToken
 
       }
     } catch (error) {
       console.log(error);
-      
-      throw new AppError("Error in login",500,error);
+
+      throw new AppError("Error in login", 500, error);
     }
   }
 
@@ -185,6 +185,47 @@ class UserService {
     )
     return safeUser
   };
+
+  async updateUserRole(userId, newRoleId) {
+    await this.UserRepository.update(userId, { roleId: newRoleId });
+
+    const updateUser = await this.UserRepository.findUserbyId(userId, true);
+
+    if (!updatedUser) {
+      throw new AppError("User not found", 404);
+    }
+
+    const safeUser = {
+      _id: updatedUser._id,
+      email: updatedUser.email,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      phoneNumber: updatedUser.phoneNumber,
+      isVerified: updatedUser.isVerified,
+      role: updatedUser.roleId
+        ? { _id: updatedUser.roleId._id, name: updatedUser.roleId.name }
+        : null,
+    };
+
+    // 4️⃣ Update cache
+    await this.cacheRepository.set(
+      `user:id:${userId}`,
+      JSON.stringify(safeUser),
+      3600
+    );
+
+    await this.cacheRepository.set(
+      `user:email:${updatedUser.email}`,
+      JSON.stringify(safeUser),
+      3600
+    );
+        return safeUser;
+  }
+
+
+
+
+
 };
 
 export default UserService;

@@ -7,7 +7,6 @@ const RoleSchema = new mongoose.Schema({
     unique: true,
     enum: ["admin","user"],
     lowercase: true,
-    default:"user",
     trim: true,
   },
   description:{
