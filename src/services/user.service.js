@@ -189,7 +189,7 @@ class UserService {
   async updateUserRole(userId, newRoleId) {
     await this.UserRepository.update(userId, { roleId: newRoleId });
 
-    const updateUser = await this.UserRepository.findUserbyId(userId, true);
+    const updatedUser = await this.UserRepository.findUserbyId(userId, true);
 
     if (!updatedUser) {
       throw new AppError("User not found", 404);
