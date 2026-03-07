@@ -18,7 +18,17 @@ const resumeSchema = new mongoose.Schema({
     extractedText:{
         type: String
     },
-},{timestamps:true});
+    analysis:{
+        score: Number,
+        skills:[String],
+        missingSkills:[String],
+        suggestions:[String]
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now
+    }
+});
 
 
 export default mongoose.model("resume",resumeSchema);
