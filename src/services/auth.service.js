@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
-import config from "../config/environment.js";
-import mongoose from "mongoose";
-import { errorObject } from "bullmq";
-import UserModel from "../models/user.model.js";
+import jwt from "jsonwebtoken"
+import config from "../config/environment.js"
+import mongoose from "mongoose"
+import { errorObject } from "bullmq"
+import UserModel from "../models/user.model.js"
 
 class AuthService {
   async hasPermission(userId, roleName) {
@@ -55,7 +55,7 @@ class AuthService {
     }
   }
   verifyToken(token) {
-    return jwt.sign(token, config.JWT_SECRET);
+    return jwt.sign(token, config.JWT_SECRET)
   }
 }
 
