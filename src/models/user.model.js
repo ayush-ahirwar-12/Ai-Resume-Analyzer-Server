@@ -38,6 +38,10 @@ const userSchema = new mongoose.Schema(
       ref: "role",
       index: true,
     },
+    resume:[{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"resume"
+  }],
   },
   {
     timestamps: true,

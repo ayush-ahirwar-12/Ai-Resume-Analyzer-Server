@@ -9,21 +9,24 @@ const groq = new Groq({
 
 export const analyzeResume = async (resumeText) => {
     const prompt = `Analyze the following resume and return ONLY JSON.
-    
+
+    Return ONLY valid JSON.
+Do not wrap in markdown.
+
     Format:
 
     {
-    "score":number,
-    "skills":[],
-    "missingSkills":[],
-    "suggestions":[]
+        "score": number,
+            "skills": [],
+                "missingSkills": [],
+                    "suggestions": []
     }
 
     Resume:${resumeText}
     `;
 
     const completion = await groq.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "llama-3.1-8b-instant",
         messages: [{
             role: "user",
             content: prompt,
@@ -31,8 +34,8 @@ export const analyzeResume = async (resumeText) => {
         temperature: 0.3
 
     })
-return completion.choices[0].message.content;
+    return completion.choices[0].message.content;
 }
 
-module.exports={analyzeResume}
+// module.exports={analyzeResume}
 
